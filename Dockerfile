@@ -4,7 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update \
-  && apt-get -y install libpq-dev gcc nginx supervisor libpython3-dev build-essential\
+  && apt-get -y install libpq-dev gcc nginx supervisor libpython3-dev build-essential curl jq\
   && pip install psycopg2
 
 WORKDIR /app
@@ -19,6 +19,12 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 COPY ./config/nginx/nginx.conf /etc/nginx/sites-available/default
 COPY ./config/supervisor/supervisor.conf /etc/supervisor/conf.d/
+
+COPY ./install-aptos.sh /app
+RUN chmod +x install-aptos.sh
+CMD ["./install-aptos.sh"]
+
+COPY ./create-account.sh /app
 
 EXPOSE 80
 EXPOSE 433
