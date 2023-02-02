@@ -152,3 +152,5 @@ workspace.code*
 ../.idea/*
 
 public/*
+
+static/*
