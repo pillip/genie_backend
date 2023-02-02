@@ -24,6 +24,7 @@ class CreateOrUpdateUserInfo(graphene.Mutation):
                 discriminator=discriminator
             )
         else:
+            user = user.first()
             user.name = name
             user.discriminator = discriminator
 
