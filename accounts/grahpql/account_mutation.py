@@ -15,10 +15,17 @@ class CreateOrUpdateUserInfo(graphene.Mutation):
         avatar = graphene.String()
 
     def mutate(self, _, discord_id, name, discriminator, avatar):
-        user = GenieUser.objects.get_or_create(discord_id=discord_id)
+        user = GenieUser.objects.filter(discord_id=discord_id)
 
-        user.name = name
-        user.discriminator = discriminator
+        if not user.exists():
+            user = GenieUser.objects.create(
+                discord_id=discord_id,
+                name=name,
+                discriminator=discriminator
+            )
+        else:
+            user.name = name
+            user.discriminator = discriminator
 
         if not avatar:
             user.avatar = avatar
