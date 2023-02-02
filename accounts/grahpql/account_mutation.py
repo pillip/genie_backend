@@ -28,7 +28,7 @@ class CreateOrUpdateUserInfo(graphene.Mutation):
             user.name = name
             user.discriminator = discriminator
 
-        if not avatar:
+        if avatar:
             user.avatar = avatar
 
         user.save()
