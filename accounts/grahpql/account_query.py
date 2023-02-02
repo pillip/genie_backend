@@ -9,13 +9,13 @@ class AccountQuery(graphene.ObjectType):
     wallet_owner = graphene.NonNull(graphene.String, wallet_address=graphene.String(required=True))
 
     def resolve_user_info(self, _, **kwargs):
-        discord_id = kwargs('id').strip()
+        discord_id = kwargs.get('discord_id').strip()
         user = GenieUser.get_by_discordid(discord_id=discord_id)
 
         return user
 
     def resolve_wallet_owner(self, _, **kwargs):
-        wallet_address = kwargs('id').strip()
+        wallet_address = kwargs.get('wallet_address').strip()
         wallet = Wallet.get_by_address(address=wallet_address)
 
         return wallet.user.discord_id
